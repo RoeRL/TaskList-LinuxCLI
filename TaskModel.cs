@@ -7,7 +7,10 @@ namespace TaskList.Models
     public class TaskModel
     {
         [JsonProperty("task_id")]
-        public int Id {get; set;}
+        public string Id {get; set;} = string.Empty;
+
+        [JsonProperty("task_title")]
+        public string Title {get; set;} = string.Empty;
 
         [JsonProperty("task_desc")]
         public string Description {get; set;} = string.Empty;

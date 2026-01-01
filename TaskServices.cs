@@ -2,6 +2,7 @@ using System;
 using TaskList.Models;
 using Newtonsoft.Json;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace TaskList.Services
 {
@@ -13,18 +14,26 @@ namespace TaskList.Services
         
         public void AddTask()
         {
+            Guid uniqueId = Guid.NewGuid();
+            string newUid = uniqueId.ToString();
+            Console.WriteLine("Enter the Task Title: ");
+            string m_title = Console.ReadLine();
+            string old_jsonString = File.ReadAllText(m_filePath);
+            string formattedJsonString = JValue.Parse(old_jsonString).ToString(Formatting.Indented);
             TaskModel taskModel = new TaskModel
             {
-                Id = 12,
+                Id = newUid,
+                Title = m_title,
                 Description = "NONE",
                 IsComplete = true,
                 CreatedAt = DateTime.Now
-            };
 
+            };
             string json = JsonConvert.SerializeObject(taskModel, Formatting.Indented);
-            Console.WriteLine(json);
+            string full_json = json + "\n" + formattedJsonString;   
+            Console.WriteLine(full_json);
             if (!Directory.Exists(m_folderPath)) Directory.CreateDirectory(m_folderPath);
-            File.WriteAllText(m_filePath, json);
+            File.WriteAllText(m_filePath, full_json);
         }
     }
 }
