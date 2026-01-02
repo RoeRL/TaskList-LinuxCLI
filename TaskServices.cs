@@ -14,6 +14,9 @@ namespace TaskList.Services
         
         public void AddTask()
         {
+            string defaultJsonContent = "{}";
+            if (!Directory.Exists(m_folderPath)) Directory.CreateDirectory(m_folderPath);
+            if (!File.Exists(m_filePath)) File.WriteAllText(m_filePath, defaultJsonContent);
             Guid uniqueId = Guid.NewGuid();
             string newUid = uniqueId.ToString();
             Console.WriteLine("Enter the Task Title: ");
@@ -32,7 +35,6 @@ namespace TaskList.Services
             string json = JsonConvert.SerializeObject(taskModel, Formatting.Indented);
             string full_json = json + "\n" + formattedJsonString;   
             Console.WriteLine(full_json);
-            if (!Directory.Exists(m_folderPath)) Directory.CreateDirectory(m_folderPath);
             File.WriteAllText(m_filePath, full_json);
         }
     }
