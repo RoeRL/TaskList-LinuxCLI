@@ -19,16 +19,20 @@ namespace TaskList.Services
             if (!File.Exists(_mFilePath)) File.WriteAllText(_mFilePath, _defaultJsonContent);
             Guid uniqueId = Guid.NewGuid();
             string newUid = uniqueId.ToString();
+            
             Console.WriteLine("Enter the Task Title: ");
             string mTitle = Console.ReadLine() ?? "No Title";
+            Console.WriteLine("Enter the Task Description: ");
+            string mDescription = Console.ReadLine() ?? "No Description";
+            
             string oldJsonString = File.ReadAllText(_mFilePath);
             List<TaskModel> oldJson = JsonConvert.DeserializeObject<List<TaskModel>>(oldJsonString) ?? new List<TaskModel>();
             oldJson.Add(new TaskModel
             {
                 Id = newUid,
                 Title = mTitle,
-                Description = "NONE",
-                IsComplete = true,
+                Description = mDescription,
+                IsComplete = false,
                 CreatedAt = DateTime.Now
             });
             
