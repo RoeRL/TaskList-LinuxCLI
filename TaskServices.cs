@@ -41,14 +41,14 @@ namespace TaskList.Services
             File.WriteAllText(_mFilePath, updatedJsonString);
         }
         
-        public string ReadTask()
+        public void ReadTask()
         {
             if (!Directory.Exists(_mFolderPath)) Directory.CreateDirectory(_mFolderPath);
             if (!File.Exists(_mFilePath)) File.WriteAllText(_mFilePath, _defaultJsonContent);
             List<TaskModel> oldJson = JsonConvert.DeserializeObject<List<TaskModel>>(_mjsonRead) ?? new List<TaskModel>();
             
             string fullJsonRead = JsonConvert.SerializeObject(oldJson,  Formatting.Indented);
-            return fullJsonRead;
+            Console.WriteLine(fullJsonRead);
         }
     }
 }

@@ -23,7 +23,27 @@ namespace TaskList
                 new SelectionPrompt<string>()
                     .Title("Choose your [green]Option[/]")
                     .AddChoices("Read Task", "Add Task", "Update", "Delete"));
-            AnsiConsole.MarkupLine($"You Selected: [green]{features}[/]");
+
+            switch (features)
+            {
+                case "Read Task":
+                    AnsiConsole.MarkupLine($"You Selected: [green]{features}[/]");
+                    TS.ReadTask();
+                    break;
+                case "Add Task":
+                    AnsiConsole.MarkupLine($"You Selected: [green]{features}[/]");
+                    TS.AddTask();
+                    break;
+                case "Update":
+                    AnsiConsole.MarkupLine($"You Selected: [green]{features}[/]");
+                    break;
+                case "Delete":
+                    AnsiConsole.MarkupLine($"You Selected: [green]{features}[/]");
+                    break;
+                default:
+                    AnsiConsole.MarkupLine("Not Found");
+                    break;
+            }
         }
     }
 }
