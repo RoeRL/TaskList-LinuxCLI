@@ -11,13 +11,18 @@ namespace TaskList.Services
         private static string _mHomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         private static string _mFolderPath = Path.Combine(_mHomePath, ".config", "tasklist");
         private static string _mFilePath = Path.Combine(_mFolderPath, "task.json");
-        private static string _mjsonRead = File.ReadAllText(_mFilePath);
         private string _defaultJsonContent = "[{}]";
-        
-        public void AddTask()
+
+        public string CheckJson()
         {
             if (!Directory.Exists(_mFolderPath)) Directory.CreateDirectory(_mFolderPath);
             if (!File.Exists(_mFilePath)) File.WriteAllText(_mFilePath, _defaultJsonContent);
+            File.ReadAllText(_mFilePath);
+            return File.ReadAllText(_mFilePath);
+        }
+        public void AddTask()
+        {
+            string _mjsonRead = CheckJson();
             Guid uniqueId = Guid.NewGuid();
             string newUid = uniqueId.ToString();
             
@@ -43,6 +48,7 @@ namespace TaskList.Services
         
         public void ReadTask()
         {
+            string _mjsonRead = CheckJson();
             if (!Directory.Exists(_mFolderPath)) Directory.CreateDirectory(_mFolderPath);
             if (!File.Exists(_mFilePath)) File.WriteAllText(_mFilePath, _defaultJsonContent);
             List<TaskModel> oldJson = JsonConvert.DeserializeObject<List<TaskModel>>(_mjsonRead) ?? new List<TaskModel>();
